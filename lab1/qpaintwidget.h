@@ -5,6 +5,26 @@
 #include <QVarLengthArray>
 
 class QPaintEvent;
+class QpointF;
+struct QCircle
+{
+    QPointF pos;
+    qreal radius;
+};
+struct QTriangle
+{
+    QPointF points[3];
+    double angle;
+    bool min;
+};
+
+struct QGVector
+{
+
+    QPointF point1;
+    QPointF point2;
+};
+
 
 class QPaintWidget : public QWidget
 {
@@ -12,6 +32,9 @@ class QPaintWidget : public QWidget
 public:
     QPaintWidget(QWidget * parent = 0);
     QVector <QPointF> points;
+    QVector <QTriangle> triangles;
+    QCircle circle;
+    QTriangle triangle;
 
 protected:
     void paintEvent(QPaintEvent *);

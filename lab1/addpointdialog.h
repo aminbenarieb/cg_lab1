@@ -1,11 +1,11 @@
-#ifndef ADDDIALOG_H
-#define ADDDIALOG_H
+#ifndef ADDPOINTDIALOG_H
+#define ADDPOINTDIALOG_H
 
 #include <QDialog>
 
 class QLineEdit;
 
-class AddDialog : public QDialog
+class AddPointDialog : public QDialog
 {
     Q_OBJECT
 
@@ -14,7 +14,7 @@ private:
     QLineEdit* textFieldY;
 
 public:
-    AddDialog(QWidget* pwgt = 0);
+    AddPointDialog(QWidget* pwgt = 0);
     QString X() const;
     QString Y() const;
 
@@ -23,4 +23,4 @@ public slots:
 
 };
 
-#endif // ADDDIALOG_H
+#endif // ADDPOINTDIALOG_H

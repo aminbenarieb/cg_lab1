@@ -4,87 +4,10 @@
 #include <QGridLayout>
 #include <QEvent>
 #include <QResizeEvent>
-#include <QDebug>
 #include <QPushButton>
 #include <QHeaderView>
 #include <QStatusBar>
 
-
-MainWindow::MainWindow(QWidget *parent) :
-    QWidget(parent)
-{
-    this->setWindowTitle(kTextTitle);
-    this->setFixedSize(600, 400);
-
-     //***** QPaintWidget Settings ******
-    wgt = new QPaintWidget(this);
-    wgt->setMinimumWidth(300);
-    wgt->setMouseTracking(true);
-    wgt->installEventFilter(this);
-    //*******************************
-
-    //***** TableView Settings ******
-    tableView  = new QTableWidget();
-
-    tableView->setColumnCount(3);
-    tableView->setFixedWidth(119);
-    tableView->setColumnWidth(0,35);
-    tableView->setColumnWidth(1,35);
-    tableView->setColumnWidth(2,35);
-
-    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableView->setSelectionMode(QAbstractItemView:: SingleSelection);
-    tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    tableView->horizontalHeader()->setSectionsClickable(false);
-
-    tableView->setHorizontalHeaderItem(0, new QTableWidgetItem("№"));
-    tableView->setHorizontalHeaderItem(1, new QTableWidgetItem("X"));
-    tableView->setHorizontalHeaderItem(2, new QTableWidgetItem("Y"));
-
-    tableView->verticalHeader()->setVisible(false);
-
-    tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
-    QItemSelectionModel *sm = tableView->selectionModel();
-    connect(sm, SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-               this, SLOT(tableViewRowSelected(QModelIndex,QModelIndex)));
-    //*******************************
-
-
-
-    //***** Buttons Settings ******
-    QPushButton *btnQuit = new QPushButton(kBtnTextQuit);
-    QPushButton *btnClean = new QPushButton(kBtnTextClean);
-    QPushButton *btnCalc = new QPushButton(kBtnTextCalc);
-    QPushButton *btnAddPoint  = new QPushButton(kBtnTextAddPoint);
-    QPushButton *btnDelPoint = new QPushButton(kBtnTextDelPoint);
-    QPushButton *btnEditPoint = new QPushButton(kBtnTextEditPoint);
-
-    QObject::connect(btnQuit, SIGNAL(clicked()), this, SLOT(actionQuit()) );
-    QObject::connect(btnClean, SIGNAL(clicked()), this, SLOT(actionClean()));
-    QObject::connect(btnCalc, SIGNAL(clicked()), this, SLOT(actionCalc()));
-    QObject::connect(btnAddPoint, SIGNAL(clicked()), this, SLOT(actionAddPoint()));
-    QObject::connect(btnEditPoint, SIGNAL(clicked()), this, SLOT(actionEditPoint()));
-    QObject::connect(btnDelPoint, SIGNAL(clicked()), this, SLOT(actionDelPoint()));
-    //*******************************
-
-    //***** Layout Settings ******
-    QGridLayout* pvbxLayout = new QGridLayout;
-    pvbxLayout->setContentsMargins(0, 0, 0, 0);
-    pvbxLayout->addWidget(wgt,0,0);
-    pvbxLayout->addWidget(tableView, 0, 1);
-    pvbxLayout->addWidget(btnQuit, 0, 2);
-    pvbxLayout->addWidget(btnClean, 1, 2);
-    pvbxLayout->addWidget(btnCalc, 2, 2);
-    pvbxLayout->addWidget(btnAddPoint, 3, 2);
-    pvbxLayout->addWidget(btnEditPoint, 4, 2);
-    pvbxLayout->addWidget(btnDelPoint, 5, 2);
-    setLayout(pvbxLayout);
-    //*******************************
-
-}
 
 MainWindow::~MainWindow()
 {
@@ -94,16 +17,34 @@ MainWindow::~MainWindow()
 
 void MainWindow::addRow(QPointF point)
 {
-    // Добавление
+    // Добавление в массив
     wgt->points.append(point);
+
+    // Обновление рисунка
     wgt->update();
 
-    // Добавление в таблицу точки
-    const int rowCount = tableView->rowCount();
-    tableView->insertRow(rowCount);
-    tableView->setItem(rowCount, 0,  new QTableWidgetItem(QString::number(rowCount)));
-    tableView->setItem(rowCount, 1,  new QTableWidgetItem(QString::number(point.y())));
-    tableView->setItem(rowCount, 2,  new QTableWidgetItem(QString::number(point.y())));
+    // Обновление таблицы
+    updateTable();
+
+}
+void MainWindow::updateTable()
+{
+
+    while (tableView->rowCount() != 0)
+    {
+        delete  tableView->item(tableView->rowCount()-1, 0);
+        delete  tableView->item(tableView->rowCount()-1, 1);
+        delete  tableView->item(tableView->rowCount()-1, 2);
+        tableView->removeRow(0);
+    }
+
+    foreach (QPointF point, wgt->points) {
+
+        tableView->insertRow(tableView->rowCount());
+        tableView->setItem(tableView->rowCount()-1, 0,  new QTableWidgetItem(QString::number(tableView->rowCount())));
+        tableView->setItem(tableView->rowCount()-1, 1,  new QTableWidgetItem(QString::number(point.x())));
+        tableView->setItem(tableView->rowCount()-1, 2,  new QTableWidgetItem(QString::number(point.y())));
+    }
 
 }
 

@@ -1,4 +1,4 @@
-#include "adddialog.h"
+#include "addpointdialog.h"
 #include "congif.h"
 
 #include <QLabel>
@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 
-AddDialog::AddDialog(QWidget* pwgt/*= 0*/)
+AddPointDialog::AddPointDialog(QWidget* pwgt/*= 0*/)
     : QDialog(pwgt, Qt::WindowTitleHint | Qt::WindowSystemMenuHint)
 {
 
@@ -33,10 +33,10 @@ AddDialog::AddDialog(QWidget* pwgt/*= 0*/)
 
 }
 
-QString AddDialog::X() const {
+QString AddPointDialog::X() const {
     return textFieldX->text();
 }
 
-QString AddDialog::Y() const {
+QString AddPointDialog::Y() const {
     return textFieldY->text();
 }
