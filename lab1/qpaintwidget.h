@@ -20,7 +20,6 @@ struct QTriangle
 
 struct QGVector
 {
-
     QPointF point1;
     QPointF point2;
 };
@@ -35,6 +34,13 @@ public:
     QVector <QTriangle> triangles;
     QCircle circle;
     QTriangle triangle;
+private:
+    qreal minX;
+    qreal minY;
+    qreal maxX;
+    qreal maxY;
+    void calcMinMaxPoint();
+    void drawAxis(QPainter *);
 
 protected:
     void paintEvent(QPaintEvent *);

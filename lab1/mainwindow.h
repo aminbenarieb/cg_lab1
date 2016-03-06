@@ -28,11 +28,10 @@ public:
         setupUi(this);
 
         this->setWindowTitle(kTextTitle);
-        this->setFixedSize(800, 600);
-
+        //this->set;
 
             //***** QPaintWidget Settings ******
-           wgt->setMinimumWidth(500);
+           //wgt->setMinimumWidth(500);
            wgt->setMouseTracking(true);
            wgt->installEventFilter(this);
            wgt->setAutoFillBackground(true);
@@ -79,8 +78,8 @@ public:
            btnDelPoint->setText(kBtnTextDelPoint);
            btnEditPoint->setText(kBtnTextEditPoint);
            btnAddCircle ->setText(kBtnTextAddCircle);
-            btnDelCircle->setText(kBtnTextDelCircle);
-            btnEditCircle->setText(kBtnTextEditCircle);
+           btnDelCircle->setText(kBtnTextDelCircle);
+           btnEditCircle->setText(kBtnTextEditCircle);
 
 
            QObject::connect(btnQuit, SIGNAL(clicked()), this, SLOT(actionQuit()) );
@@ -173,9 +172,11 @@ public slots:
             double angle2 = kAngleOfTwoVectors(point1.x(), point1.y(), point3.x(), point3.y());
             double angle3 = kAngleOfTwoVectors(point2.x(), point2.y(), point3.x(), point3.y());
 
-            qDebug()<<++i<<angle1<<angle2<<angle3;
 
             double angle = kmin( kmin(angle1, angle2),  angle3);
+
+            qDebug()<<++i<<angle1<<angle2<<angle3<<";min: "<<angle;
+
 
             if (!wgt->triangle.min || wgt->triangle.angle < angle)
             {

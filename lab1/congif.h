@@ -23,8 +23,10 @@
 
 #define kDrawPointRadius 3
 #define kDrawPenWidth 1
+#define kAxisStep 100
 
-#define kmin(a, b) ( ( a > b) ? a : b )
+#define kmin(a, b) ( ( a < b) ? a : b )
+#define kmax(a, b) ( ( a > b) ? a : b )
 #define kcalcSide(a, b) sqrt( pow( (a.x()-b.x()), 2) + pow( (a.y() - b.y()), 2) )
 
 class QPointF;
@@ -50,10 +52,14 @@ inline bool kIfPointOnSide(QPointF currPoint, QPointF point1, QPointF point2)
 }
 inline double kAngleOfTwoVectors(double x1, double y1, double x2, double y2)
 {
-    double dot = x1*x2 + y1*y2;
-    double det = x1*y2 - y1*x2;
+//    double dot = x1*x2 + y1*y2;
+//    double det = x1*y2 - y1*x2;
+//    return fabs(atan2(det, dot));
 
-    return fabs(atan2(det, dot));
+    double ab = x1*x2 + y1*y2;
+    double ab_l = sqrt(x1*x1+y1*y1)*sqrt(x2*x2+y2*y2);
+    return fabs(acos(ab/ab_l));
+
 }
 
 #endif // CONGIF_H
