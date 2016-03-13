@@ -17,6 +17,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::addRow(QPointF point)
 {
+    // Сбрасываем решение
+    wgt->triangle.min = false;
+
     // Добавление в массив
     wgt->points.append(point);
 

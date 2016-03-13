@@ -16,6 +16,8 @@ struct QTriangle
     QPointF points[3];
     double angle;
     bool min;
+    int i;  // Индекс первой точки
+    int j;  // Индекс второй точки
 };
 
 struct QGVector
@@ -39,6 +41,8 @@ private:
     qreal minY;
     qreal maxX;
     qreal maxY;
+    QPointF scalePoint(QPointF point);
+    QTriangle scaleTrianglePoints(QTriangle triangle);
     void calcMinMaxPoint();
     void drawAxis(QPainter *);
 

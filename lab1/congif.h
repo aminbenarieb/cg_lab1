@@ -6,6 +6,7 @@
 #define kBtnTextQuit "Выйти"
 #define kBtnTextClean "Очистить"
 #define kBtnTextCalc "Вычислить"
+#define kBtnTextGenerate "Сгенерировать решение"
 #define kBtnTextAddPoint "Добавить точку"
 #define kBtnTextDelPoint "Удалить точку"
 #define kBtnTextEditPoint "Редактировать точку"
@@ -28,8 +29,10 @@
 #define kmin(a, b) ( ( a < b) ? a : b )
 #define kmax(a, b) ( ( a > b) ? a : b )
 #define kcalcSide(a, b) sqrt( pow( (a.x()-b.x()), 2) + pow( (a.y() - b.y()), 2) )
+#define kRadianToDegree(radian) ( radian*180/M_PI )
 
 class QPointF;
+
 inline bool kIfPointOnSide(QPointF currPoint, QPointF point1, QPointF point2)
 {
     int dxc = currPoint.x() - point1.x();
@@ -56,9 +59,21 @@ inline double kAngleOfTwoVectors(double x1, double y1, double x2, double y2)
 //    double det = x1*y2 - y1*x2;
 //    return fabs(atan2(det, dot));
 
-    double ab = x1*x2 + y1*y2;
-    double ab_l = sqrt(x1*x1+y1*y1)*sqrt(x2*x2+y2*y2);
-    return fabs(acos(ab/ab_l));
+//    double ab = x1*x2 + y1*y2;
+//    double ab_l = sqrt(x1*x1+y1*y1)*sqrt(x2*x2+y2*y2);
+//    return fabs(acos(ab/ab_l));
+
+    double angle1 = atan2(y1 - y2, x1 - x2 );
+    double angle2 = atan2( 0, 10 );
+    double angle = kRadianToDegree(angle1-angle2);
+    if (fabs(angle) > 180)
+        angle = fabs(angle-180);
+    else if (angle < 0)
+        angle = fabs(angle+180);
+
+
+
+    return angle;
 
 }
 

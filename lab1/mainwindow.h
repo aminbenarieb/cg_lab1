@@ -80,11 +80,12 @@ public:
            btnAddCircle ->setText(kBtnTextAddCircle);
            btnDelCircle->setText(kBtnTextDelCircle);
            btnEditCircle->setText(kBtnTextEditCircle);
-
+           btnGenerate->setText(kBtnTextGenerate);
 
            QObject::connect(btnQuit, SIGNAL(clicked()), this, SLOT(actionQuit()) );
            QObject::connect(btnClean, SIGNAL(clicked()), this, SLOT(actionClean()));
            QObject::connect(btnCalc, SIGNAL(clicked()), this, SLOT(actionCalc()));
+           QObject::connect(btnGenerate, SIGNAL(clicked()), this, SLOT(actionGenerate()));
            QObject::connect(btnAddPoint, SIGNAL(clicked()), this, SLOT(actionAddPoint()));
            QObject::connect(btnEditPoint, SIGNAL(clicked()), this, SLOT(actionEditPoint()));
            QObject::connect(btnDelPoint, SIGNAL(clicked()), this, SLOT(actionDelPoint()));
@@ -117,7 +118,6 @@ public slots:
 
         while (wgt->triangles.count() != 0)
             wgt->triangles.removeLast();
-
 
         const int count = wgt->points.count();
         if  (count > 2)
@@ -155,7 +155,26 @@ public slots:
                                 (center_circle_on_side_1 ||
                                 center_circle_on_side_2 ||
                                 center_circle_on_side_3))
-                                    wgt->triangles.append(triangle);
+                            {
+                                // Сохраняем индексы точек для показа их в текстовом решении
+                                if (center_circle_on_side_1)
+                                {
+                                    triangle.i = 0;
+                                    triangle.j = 1;
+                                }
+                                else if (center_circle_on_side_2)
+                                {
+                                    triangle.i = 0;
+                                    triangle.j = 2;
+                                }
+                                else if (center_circle_on_side_3)
+                                {
+                                    triangle.i = 1;
+                                    triangle.j = 2;
+                                }
+
+                                 wgt->triangles.append(triangle);
+                            }
 
                         }
 
@@ -172,15 +191,13 @@ public slots:
             double angle2 = kAngleOfTwoVectors(point1.x(), point1.y(), point3.x(), point3.y());
             double angle3 = kAngleOfTwoVectors(point2.x(), point2.y(), point3.x(), point3.y());
 
+            qDebug()<<QString().sprintf("%i) %.2lf %.2lf %.2lf", ++i, angle1, angle2, angle3);
 
             double angle = kmin( kmin(angle1, angle2),  angle3);
 
-            qDebug()<<++i<<angle1<<angle2<<angle3<<";min: "<<angle;
-
-
-            if (!wgt->triangle.min || wgt->triangle.angle < angle)
+            if (!wgt->triangle.min || wgt->triangle.angle > angle)
             {
-                qDebug()<<i<<angle;
+                qDebug()<<QString().sprintf("%i) %.2lf", i, angle);
                 wgt->triangle = triangle;
                 wgt->triangle.angle = angle;
                 wgt->triangle.min = true;
@@ -189,13 +206,51 @@ public slots:
 
         wgt->update();
 
+
+        if (wgt->triangle.min)
+        {
+            QMessageBox *msgBox = new QMessageBox(0);
+            msgBox->setText("Решение");
+            msgBox->setWindowModality(Qt::NonModal);
+            msgBox->setInformativeText( QString("Найден искомый треугольник с координатами:\n%1\n"
+                                       "у которого прямая, проходящая через две вершины:\n %2 \n"
+                                       "проходит через центр окружности: %3 \n\n"
+                                       "Угол между стороной треугольника и осью абцисс: (%4) \n").arg(
+                                            QString("(%1, %2), (%3, %4), (%5, %6)").arg(
+                                                QString::number(wgt->triangle.points[0].x()),
+                                                QString::number(wgt->triangle.points[0].y()),
+                                                QString::number(wgt->triangle.points[1].x()),
+                                                QString::number(wgt->triangle.points[1].y()),
+                                                QString::number(wgt->triangle.points[2].x()),
+                                                QString::number(wgt->triangle.points[2].y())
+                                            ),
+                                            QString("(%1, %2), (%3, %4)").arg(
+                                                QString::number(wgt->triangle.points[wgt->triangle.i].x()),
+                                                QString::number(wgt->triangle.points[wgt->triangle.i].y()),
+                                                QString::number(wgt->triangle.points[wgt->triangle.j].x()),
+                                                QString::number(wgt->triangle.points[wgt->triangle.j].y())
+                                            ),
+                                            QString("(%1, %2)").arg(
+                                                QString::number(wgt->circle.pos.x()),
+                                                QString::number(wgt->circle.pos.y())
+                                            ),
+                                            QString("").sprintf("%.2lf", wgt->triangle.angle)
+                                            ) );
+
+           QSpacerItem* horizontalSpacer = new QSpacerItem(400, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+           QGridLayout* layout = (QGridLayout*)msgBox->layout();
+           layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
+
+           msgBox->exec();
+      }
+
+
     }
     void actionAddPoint(){
 
         AddPointDialog* addDialog = new AddPointDialog;
         if (addDialog->exec() == QDialog::Accepted) {
             addRow(QPointF(addDialog->X().toFloat(), addDialog->Y().toFloat()));
-
         }
         delete addDialog;
 
@@ -217,6 +272,20 @@ public slots:
     }
     void actionEditCircle(){}
     void actionDelCircle(){}
+    void actionGenerate()
+    {
+
+        actionClean();
+
+        wgt->circle.pos = QPointF(200,200);
+        wgt->circle.radius = 100;
+
+        addRow(QPointF(10,10));
+        addRow(QPointF(350,350));
+        addRow(QPointF(100,267));
+
+        actionCalc();
+    }
 
 //    void pointSelected(QModelIndex indeMod,QModelIndex indeMod2)
 //    {

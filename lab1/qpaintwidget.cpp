@@ -11,6 +11,24 @@ QPaintWidget::QPaintWidget(QWidget * parent) : QWidget(parent)
 
 }
 
+QPointF QPaintWidget::scalePoint(QPointF point)
+{
+
+    //QPointF scalePos = QPointF();
+    //scalePos.setX( ((point.x()-minX)/ (maxX - minX)) * this->width());
+    //scalePos.setY( ((point.y()-minY)/ (maxY - minY)) * this->height());
+    return point;
+
+}
+
+QTriangle QPaintWidget::scaleTrianglePoints(QTriangle triangle)
+{
+    for (int i = 0; i < 3; i++)
+        triangle.points[i] = scalePoint(triangle.points[i]);
+    return triangle;
+
+}
+
 void QPaintWidget::paintEvent(QPaintEvent *) {
 
     QPainter ppainter(this);
@@ -20,31 +38,41 @@ void QPaintWidget::paintEvent(QPaintEvent *) {
     ppainter.save();
     ppainter.setPen(QPen(Qt::black, kDrawPenWidth));
     ppainter.setBrush(QBrush(Qt::transparent));
-//    if (circle.radius !=0)
-//    {
-//           ppainter.drawEllipse(circle.pos.x()-circle.radius, circle.pos.y()-circle.radius, 2*circle.radius, 2*circle.radius);
-//    }
+    if (circle.radius !=0)
+    {
+           QPointF scalePos = scalePoint(circle.pos);
+           ppainter.drawEllipse(scalePos.x()-circle.radius, scalePos.y()-circle.radius, 2*circle.radius, 2*circle.radius);
+    }
 //    foreach (QTriangle triangle, triangles) {
-//        ppainter.drawPolygon(triangle.points, 3);
+//        ppainter.drawPolygon(scaleTrianglePoints(triangle).points, 3);
 //    }
-//    if (triangle.min)
-//    {
-//           ppainter.setPen(QPen(Qt::blue, kDrawPenWidth));
-//           ppainter.drawPolygon(triangle.points, 3);
-//    }
+    if (triangle.min)
+    {
+           ppainter.setPen(QPen(Qt::blue, kDrawPenWidth));
+           ppainter.drawPolygon(scaleTrianglePoints(triangle).points, 3);
+    }
     ppainter.setPen(QPen(Qt::black, kDrawPenWidth));
     ppainter.setBrush(QBrush(Qt::green));
-//    if (circle.radius !=0)
-//    {
-//           ppainter.drawEllipse(circle.pos.x()-kDrawPointRadius, circle.pos.y()-kDrawPointRadius, 2*kDrawPointRadius, 2*kDrawPointRadius);
-//    }
-    foreach (QPointF point, points) {
+    if (circle.radius !=0)
+    {
+           QPointF scalePos = scalePoint(circle.pos);
+           ppainter.drawEllipse(scalePos.x()-kDrawPointRadius, scalePos.y()-kDrawPointRadius, 2*kDrawPointRadius, 2*kDrawPointRadius);
+    }
+    if (triangle.min)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            QPointF scalePos = scalePoint(triangle.points[i]);
+            ppainter.drawEllipse(scalePos.x()-kDrawPointRadius, scalePos.y()-kDrawPointRadius, 2*kDrawPointRadius, 2*kDrawPointRadius);
+        }
+    }
+    else
+    {
+        foreach (QPointF point, points) {
 
-        QPointF scalePos = QPointF();
-        scalePos.setX( ((point.x()-minX)/ (maxX - minX)) * this->width());
-        scalePos.setY( ((point.y()-minY)/ (maxY - minY)) * this->height());
-
-        ppainter.drawEllipse(scalePos.x()-kDrawPointRadius, scalePos.y()-kDrawPointRadius, 2*kDrawPointRadius, 2*kDrawPointRadius);
+            QPointF scalePos = scalePoint(point);
+            ppainter.drawEllipse(scalePos.x()-kDrawPointRadius, scalePos.y()-kDrawPointRadius, 2*kDrawPointRadius, 2*kDrawPointRadius);
+        }
     }
     ppainter.restore();
 }
@@ -68,8 +96,9 @@ void QPaintWidget::calcMinMaxPoint()
        if (flagFirst)
            flagFirst = false;
     }
-    qDebug()<<"maxX: "<<maxX<<", maxY: "<<maxY;
-    qDebug()<<"minX: "<<minX<<", minY: "<<minY;
+//    qDebug()<<"maxX: "<<maxX<<", maxY: "<<maxY;
+//    qDebug()<<"minX: "<<minX<<", minY: "<<minY;
+//    qDebug()<<"width:"<<this->width()<<", hegiht: "<<this->height();
 
 
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>724</width>
-    <height>427</height>
+    <width>749</width>
+    <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,7 @@
           <height>0</height>
          </size>
         </property>
+        <zorder>textBrowser</zorder>
        </widget>
       </item>
      </layout>
@@ -138,6 +139,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="btnGenerate">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnClean">
         <property name="text">
          <string>PushButton</string>
@@ -173,7 +181,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>724</width>
+     <width>749</width>
      <height>22</height>
     </rect>
    </property>
