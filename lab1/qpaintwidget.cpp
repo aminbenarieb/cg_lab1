@@ -52,7 +52,7 @@ void QPaintWidget::calcScale()
     {
        if (flagFirst || point.x() < minX)
             minX = point.x();
-       if (flagFirst || point.x() > minX)
+       if (flagFirst || point.x() > maxX)
             maxX = point.x();
        if (flagFirst || point.y() < minY)
             minY = point.y();
