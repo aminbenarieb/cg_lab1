@@ -124,8 +124,12 @@ public slots:
         while (wgt->triangles.count() != 0)
             wgt->triangles.removeLast();
 
+        // Сбрасываем решение
         wgt->circle.radius = 0;
         wgt->triangle.min = false;
+
+        btnDelCircle->setEnabled(false);
+        btnAddCircle ->setText(kBtnTextAddCircle);
 
         wgt->update();
         updateTable();
@@ -388,8 +392,12 @@ public slots:
 
     }
     void actionDelCircle(){
+
         wgt->circle.pos = QPointF(0,0);
         wgt->circle.radius = 0;
+
+        // Сбрасываем решение
+        wgt->triangle.min = false;
 
         btnDelCircle->setEnabled(false);
         btnAddCircle ->setText(kBtnTextAddCircle);
