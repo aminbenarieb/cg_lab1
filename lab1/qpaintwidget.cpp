@@ -144,19 +144,41 @@ QTriangle QPaintWidget::scaleTrianglePoints(QTriangle triangle)
 
 // Drawing
 
-void QPaintWidget::drawAxis(QPainter *ppainter)
-{
-    double w = canvasWidth();
-    double h = canvasHeight();
-    double step = 100;
+void QPaintWidget::drawFrame(QPainter *ppainter){
+
+    QVector<QPointF> linePoints;
+    linePoints <<  QPointF(kPadding,kPadding)
+                <<  QPointF(kPadding,canvasHeight()+kPadding)
+                 <<  QPointF(kPadding,canvasHeight()+kPadding)
+                  <<  QPointF(canvasWidth()+kPadding,canvasHeight()+kPadding)
+                   <<  QPointF(canvasWidth()+kPadding,canvasHeight()+kPadding)
+                    <<  QPointF(canvasWidth()+kPadding,kPadding)
+                     <<  QPointF(canvasWidth()+kPadding,kPadding)
+                      <<  QPointF(kPadding,kPadding);
 
     ppainter->save();
-    ppainter->setPen(QPen(Qt::lightGray,2,Qt::DashLine));
-    for (double x = step; x < w; x += step)
+
+    ppainter->setPen(QPen(Qt::lightGray,1,Qt::DashLine));
+    ppainter->drawLines( linePoints );
+
+    ppainter->restore();
+
+
+}
+
+void QPaintWidget::drawAxis(QPainter *ppainter)
+{
+    double w = canvasWidth()+kPadding;
+    double h = canvasHeight()+kPadding;
+    double step = 92;
+
+    ppainter->save();
+    ppainter->setPen(QPen(Qt::lightGray,1,Qt::DashLine));
+    for (double x = kPadding; x <= w; x += step)
     {
         ppainter->drawLine(QPointF(x,h), QPointF(x,kPadding));
      }
-    for (double y = step; y < h; y += step)
+    for (double y = kPadding; y <= h; y += step)
     {
         ppainter->drawLine(QPointF(kPadding,y), QPointF(w,y));
     }
@@ -251,6 +273,7 @@ void QPaintWidget::paintEvent(QPaintEvent *) {
     ppainter.setPen(QPen(Qt::black, kDrawPenWidth));
     ppainter.setBrush(QBrush(Qt::transparent));
 
+    drawFrame(&ppainter);
     drawAxis(&ppainter);
     drawCircle(&ppainter);
     drawTriangle(&ppainter);

@@ -53,6 +53,7 @@ private:
     QLabel *initAxisLabel(int, int, int, int, QFont);
     QTriangle scaleTrianglePoints(QTriangle);
     void calcScale();
+    void drawFrame(QPainter *);
     void drawAxis(QPainter *);
     void drawCircle(QPainter *);
     void drawPoints(QPainter *);
