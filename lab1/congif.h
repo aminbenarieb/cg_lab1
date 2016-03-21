@@ -14,6 +14,9 @@
 #define kBtnTextDelCircle "Удалить окружность"
 #define kBtnTextEditCircle "Редактировать окружность"
 
+#define kLabelCircleInfo "Задана окружность с \nцентром в точке (%1,%2)\nи радиусом %3."
+#define kLabelCircleUndefined "Окружность не задана"
+
 #define kTextTitle "Аминоточки"
 
 #define kDialogLabelTextX "Координата-X"

@@ -69,6 +69,9 @@ public:
         //*******************************
 
 
+        //***** Label Settings ******
+        labelCircle->setText(kLabelCircleUndefined);
+        //*******************************
 
         //***** Buttons Settings ******
         btnQuit->setText(kBtnTextQuit);
@@ -106,6 +109,11 @@ public slots:
         wgt->circle.pos = QPointF(0,0);
         wgt->circle.radius = 100;
 
+        labelCircle->setText(QString(kLabelCircleInfo).arg(
+                                 QString::number(wgt->circle.pos.x()),
+                                 QString::number(wgt->circle.pos.y()),
+                                 QString::number(wgt->circle.radius)
+                                 ));
         btnDelCircle->setEnabled(true);
         btnAddCircle ->setText(kBtnTextEditCircle);
 
@@ -125,9 +133,10 @@ public slots:
             wgt->triangles.removeLast();
 
         // Сбрасываем решение
-        wgt->circle.radius = 0;
         wgt->triangle.min = false;
 
+        wgt->circle.radius = 0;
+        labelCircle->setText(kLabelCircleUndefined);
         btnDelCircle->setEnabled(false);
         btnAddCircle ->setText(kBtnTextAddCircle);
 
@@ -383,6 +392,11 @@ public slots:
             wgt->circle.pos = QPointF(addDialog->X().toFloat(), addDialog->Y().toFloat());;
             wgt->circle.radius = addDialog->R().toFloat();
 
+            labelCircle->setText(QString(kLabelCircleInfo).arg(
+                                     QString::number(wgt->circle.pos.x()),
+                                     QString::number(wgt->circle.pos.y()),
+                                     QString::number(wgt->circle.radius)
+                                     ));
             btnDelCircle->setEnabled(true);
             btnAddCircle ->setText(kBtnTextEditCircle);
 
@@ -395,6 +409,7 @@ public slots:
 
         wgt->circle.pos = QPointF(0,0);
         wgt->circle.radius = 0;
+        labelCircle->setText(kLabelCircleUndefined);
 
         // Сбрасываем решение
         wgt->triangle.min = false;
