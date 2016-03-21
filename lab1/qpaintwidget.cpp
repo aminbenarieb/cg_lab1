@@ -64,17 +64,20 @@ void QPaintWidget::calcScale()
     }
 
      // Calculation min, max of circle
-    if (minX > circle.pos.x()-circle.radius)
-        minX = circle.pos.x()-circle.radius;
+    if (circle.radius != 0)
+    {
+        if (minX > circle.pos.x()-circle.radius)
+            minX = circle.pos.x()-circle.radius;
 
-    if (maxX < circle.pos.x()+circle.radius)
-        maxX = circle.pos.x()+circle.radius;
+        if (maxX < circle.pos.x()+circle.radius)
+            maxX = circle.pos.x()+circle.radius;
 
-    if (minY > circle.pos.y()-circle.radius)
-        minY = circle.pos.y()-circle.radius;
+        if (minY > circle.pos.y()-circle.radius)
+            minY = circle.pos.y()-circle.radius;
 
-    if (maxY < circle.pos.y()+circle.radius)
-        maxY = circle.pos.y()+circle.radius;
+        if (maxY < circle.pos.y()+circle.radius)
+            maxY = circle.pos.y()+circle.radius;
+    }
 
 
     // Setting scale coef
@@ -119,7 +122,7 @@ void QPaintWidget::calcScale()
 QPointF QPaintWidget::scalePoint(QPointF point)
 {
 
-    return QPointF(scalePointX(point.x()) , scalePointX(point.y()));
+    return QPointF(scalePointX(point.x()) , scalePointY(point.y()));
 
 }
 
