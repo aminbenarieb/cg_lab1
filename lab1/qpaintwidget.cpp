@@ -143,24 +143,6 @@ QTriangle QPaintWidget::scaleTrianglePoints(QTriangle triangle)
 
 // Drawing
 
-void QPaintWidget::drawMouseLabels(QPainter *ppainter)
-{
-    ppainter->save();
-
-    ppainter->setRenderHint(QPainter::Antialiasing, false);
-    ppainter->setPen((QPen(*(new QColor(130, 135, 144)),1,Qt::SolidLine)));
-    if (cursorX >= kPadding && cursorX <= canvasWidth() && cursorY >= kPadding && cursorY <= canvasHeight())
-    {
-        ppainter->drawLine(0,cursorY, this->width() ,cursorY);
-        ppainter->drawLine(cursorX,0,cursorX, this->height() );
-
-    }
-
-    ppainter->restore();
-
-}
-
-
 void QPaintWidget::drawAxis(QPainter *ppainter)
 {
     double w = canvasWidth();
@@ -263,7 +245,6 @@ void QPaintWidget::paintEvent(QPaintEvent *) {
     ppainter.setBrush(QBrush(Qt::transparent));
 
     drawAxis(&ppainter);
-    drawMouseLabels(&ppainter);
     drawCircle(&ppainter);
     drawTriangle(&ppainter);
     drawPoints(&ppainter);
