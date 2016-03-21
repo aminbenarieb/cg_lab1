@@ -24,7 +24,7 @@
 
 #define kDrawPointRadius 3
 #define kDrawPenWidth 2
-#define kPadding (kDrawPenWidth + kDrawPointRadius)
+#define kPadding 20
 #define kAxisStep 100
 #define kAXIS_LABEL_WIDTH 50
 #define kAXIS_LABEL_HEIGHT 10
