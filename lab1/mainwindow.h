@@ -286,11 +286,7 @@ public slots:
             msgBox->setText("Решение");
             msgBox->setWindowModality(Qt::NonModal);
             msgBox->setInformativeText(
-                        QString("Найден искомый треугольник с координатами:\n%1\n"
-                                "у которого прямая, проходящая через две вершины:\n %2 \n"
-                                "проходит через центр окружности: %3 с радиусом %4.\n\n"
-                                "Угол между стороной треугольника, образованной точками:\n %5,\n"
-                                "и осью абцисс: %6.\n").arg
+                        QString(kInfoResult).arg
                         (
                             QString("(%1, %2), (%3, %4), (%5, %6)").arg(
                                 QString::number(wgt->triangle.points[0].x()),
