@@ -106,8 +106,8 @@ public slots:
 
         actionClean();
 
-        wgt->circle.pos = QPointF(0,0);
-        wgt->circle.radius = 100;
+        wgt->circle.pos = QPointF(0.2,0.2);
+        wgt->circle.radius = 0.5;
 
         labelCircle->setText(QString(kLabelCircleInfo).arg(
                                  QString::number(wgt->circle.pos.x()),
@@ -118,9 +118,9 @@ public slots:
         btnAddCircle ->setText(kBtnTextEditCircle);
 
 
-        addRow(QPointF(-10,10));
-        addRow(QPointF(10,10));
-        addRow(QPointF(-10,-10));
+        addRow(QPointF(0.3,0.3));
+        addRow(QPointF(0.6,-0.8));
+        addRow(QPointF(-0.8,-0.8));
 
         actionCalc();
     }
