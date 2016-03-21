@@ -226,7 +226,7 @@ public slots:
 
 
             double angle;
-            int k,q;
+            int k = 0, q = 0;
 
             if (angle1 < angle2)
             {
@@ -239,7 +239,7 @@ public slots:
                 else
                 {
                     angle = angle3;
-                    k = 0;
+                    k = 1;
                     q = 2;
                 }
             }
@@ -264,13 +264,11 @@ public slots:
             {
                 // Сохраняем индексы точек для показа их в текстовом решении
 
-                wgt->triangle.k = 1;
-                wgt->triangle.q = 2;
-
                 wgt->triangle = triangle;
                 wgt->triangle.angle = angle;
                 wgt->triangle.min = true;
-
+                wgt->triangle.k = k;
+                wgt->triangle.q = q;
 
                 qDebug()<<QString().sprintf("%i) min angle: %.2lf", i, angle);
 
@@ -311,8 +309,8 @@ public slots:
                             QString("(%1, %2), (%3, %4)").arg(
                                 QString::number(wgt->triangle.points[wgt->triangle.k].x()),
                                 QString::number(wgt->triangle.points[wgt->triangle.k].y()),
-                                QString::number(wgt->triangle.points[wgt->triangle.j].x()),
-                                QString::number(wgt->triangle.points[wgt->triangle.j].y())
+                                QString::number(wgt->triangle.points[wgt->triangle.q].x()),
+                                QString::number(wgt->triangle.points[wgt->triangle.q].y())
                             ),
                             QString("").sprintf("%.2lf", wgt->triangle.angle)
                         )
