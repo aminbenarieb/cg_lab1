@@ -118,10 +118,8 @@ void QPaintWidget::calcScale()
 
 QPointF QPaintWidget::scalePoint(QPointF point)
 {
-    QPointF scalePos = QPointF();
-    scalePos.setX( scalePointX(point.x()) );
-    scalePos.setY( scalePointY(point.y()) );
-    return scalePos;
+
+    return QPointF(scalePointX(point.x()) , scalePointX(point.y()));
 
 }
 
