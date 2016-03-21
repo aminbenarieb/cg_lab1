@@ -175,14 +175,15 @@ void QPaintWidget::drawCircle(QPainter *ppainter)
            double posYCenter = scalePointY(circle.pos.y());
            int sizeX = static_cast<int>(circle.radius/((maxX - minX) / canvasWidth()));
            int sizeY = static_cast<int>(circle.radius/((maxY - minY) / canvasHeight()));
+           int size = kmin(sizeX, sizeY);
 
            ppainter->setPen(QPen(Qt::darkGreen, kDrawPenWidth));
            ppainter->setBrush(QBrush(Qt::transparent));
            ppainter->drawEllipse(
-                                 posXCenter-sizeX,
-                                 posYCenter-sizeY,
-                                 2*sizeX+1,
-                                 2*sizeY+1
+                                 posXCenter-size,
+                                 posYCenter-size,
+                                 2*size+1,
+                                 2*size+1
                                  );
 
            ppainter->restore();
