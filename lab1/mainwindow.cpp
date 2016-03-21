@@ -60,13 +60,20 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     }
     else if (event->type() ==QMouseEvent::MouseButtonDblClick)
     {
-        addRow( ((QMouseEvent*)event)->pos() );
+//        addRow(  wgt->scalePoint( ((QMouseEvent*)event)->pos()) );
         return true;
     }
     else if (event->type() ==QMouseEvent::MouseMove)
     {
-        QPointF pos = ((QMouseEvent*)event)->pos();
-        this->setWindowTitle(  QString("%1 (%2,%3)").arg(kTextTitle, QString::number(pos.x()), QString::number(pos.y())) );
+//        QPointF pos = ((QMouseEvent*)event)->pos();
+//        wgt->cursorX = pos.x();
+//        wgt->cursorY = pos.y();
+
+//        pos = wgt->scalePoint(pos);
+//        this->setWindowTitle(  QString("%1 (%2,%3)").arg(kTextTitle, QString::number(pos.x()), QString::number(pos.y())) );
+
+//        wgt->update();
+
         return true;
     }
     else if (event->type() ==QEvent::Leave)

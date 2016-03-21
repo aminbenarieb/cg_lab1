@@ -30,74 +30,91 @@ public:
         this->setWindowTitle(kTextTitle);
         //this->set;
 
-            //***** QPaintWidget Settings ******
-           //wgt->setMinimumWidth(500);
-           wgt->setMouseTracking(true);
-           wgt->installEventFilter(this);
-           wgt->setAutoFillBackground(true);
-           QPalette Pal = palette();
-           Pal.setColor(QPalette::Background, Qt::white);
-           wgt->setPalette(Pal);
-           //*******************************
+        //***** QPaintWidget Settings ******
+        //wgt->setMinimumWidth(500);
+        wgt->setMouseTracking(true);
+        wgt->installEventFilter(this);
+        wgt->setAutoFillBackground(true);
+        QPalette Pal = palette();
+        Pal.setColor(QPalette::Background, Qt::white);
+        wgt->setPalette(Pal);
+        //*******************************
 
-           //***** TableView Settings ******
+        //***** TableView Settings ******
 
-           tableView->setColumnCount(3);
-           tableView->setFixedWidth(140);
-           tableView->setColumnWidth(0,26);
-           tableView->setColumnWidth(1,46);
-           tableView->setColumnWidth(2,46);
+        tableView->setColumnCount(3);
+        tableView->setFixedWidth(140);
+        tableView->setColumnWidth(0,26);
+        tableView->setColumnWidth(1,46);
+        tableView->setColumnWidth(2,46);
 
-           tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-           tableView->setSelectionMode(QAbstractItemView:: SingleSelection);
-           tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-           tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-           tableView->horizontalHeader()->setSectionsClickable(false);
+        tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableView->setSelectionMode(QAbstractItemView:: SingleSelection);
+        tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+        tableView->horizontalHeader()->setSectionsClickable(false);
 
-           tableView->setHorizontalHeaderItem(0, new QTableWidgetItem("№"));
-           tableView->setHorizontalHeaderItem(1, new QTableWidgetItem("X"));
-           tableView->setHorizontalHeaderItem(2, new QTableWidgetItem("Y"));
+        tableView->setHorizontalHeaderItem(0, new QTableWidgetItem("№"));
+        tableView->setHorizontalHeaderItem(1, new QTableWidgetItem("X"));
+        tableView->setHorizontalHeaderItem(2, new QTableWidgetItem("Y"));
 
-           tableView->verticalHeader()->setVisible(false);
+        tableView->verticalHeader()->setVisible(false);
 
-           tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-           tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-       //    QItemSelectionModel *sm = tableView->selectionModel();
-       //    connect(sm, SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-       //               this, SLOT(pointSelected(QModelIndex,QModelIndex)));
-           //*******************************
+        QItemSelectionModel *sm = tableView->selectionModel();
+        connect(sm, SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+                this, SLOT(pointSelected(QModelIndex)));
+        //*******************************
 
 
 
-           //***** Buttons Settings ******
-           btnQuit->setText(kBtnTextQuit);
-           btnClean->setText(kBtnTextClean);
-           btnCalc->setText(kBtnTextCalc);
-           btnAddPoint ->setText(kBtnTextAddPoint);
-           btnDelPoint->setText(kBtnTextDelPoint);
-           btnEditPoint->setText(kBtnTextEditPoint);
-           btnAddCircle ->setText(kBtnTextAddCircle);
-           btnDelCircle->setText(kBtnTextDelCircle);
-           btnEditCircle->setText(kBtnTextEditCircle);
-           btnGenerate->setText(kBtnTextGenerate);
+        //***** Buttons Settings ******
+        btnQuit->setText(kBtnTextQuit);
+        btnClean->setText(kBtnTextClean);
+        btnCalc->setText(kBtnTextCalc);
+        btnAddPoint ->setText(kBtnTextAddPoint);
+        btnDelPoint->setText(kBtnTextDelPoint);
+        btnEditPoint->setText(kBtnTextEditPoint);
+        btnAddCircle ->setText(kBtnTextAddCircle);
+        btnDelCircle->setText(kBtnTextDelCircle);
+        btnGenerate->setText(kBtnTextGenerate);
 
-           QObject::connect(btnQuit, SIGNAL(clicked()), this, SLOT(actionQuit()) );
-           QObject::connect(btnClean, SIGNAL(clicked()), this, SLOT(actionClean()));
-           QObject::connect(btnCalc, SIGNAL(clicked()), this, SLOT(actionCalc()));
-           QObject::connect(btnGenerate, SIGNAL(clicked()), this, SLOT(actionGenerate()));
-           QObject::connect(btnAddPoint, SIGNAL(clicked()), this, SLOT(actionAddPoint()));
-           QObject::connect(btnEditPoint, SIGNAL(clicked()), this, SLOT(actionEditPoint()));
-           QObject::connect(btnDelPoint, SIGNAL(clicked()), this, SLOT(actionDelPoint()));
-           QObject::connect(btnAddCircle, SIGNAL(clicked()), this, SLOT(actionAddCircle()));
-           QObject::connect(btnEditCircle, SIGNAL(clicked()), this, SLOT(actionEditCircle()));
-           QObject::connect(btnDelCircle, SIGNAL(clicked()), this, SLOT(actionDelCircle()));
-           //*******************************
+        QObject::connect(btnQuit, SIGNAL(clicked()), this, SLOT(actionQuit()) );
+        QObject::connect(btnClean, SIGNAL(clicked()), this, SLOT(actionClean()));
+        QObject::connect(btnCalc, SIGNAL(clicked()), this, SLOT(actionCalc()));
+        QObject::connect(btnGenerate, SIGNAL(clicked()), this, SLOT(actionGenerate()));
+        QObject::connect(btnAddPoint, SIGNAL(clicked()), this, SLOT(actionAddPoint()));
+        QObject::connect(btnEditPoint, SIGNAL(clicked()), this, SLOT(actionEditPoint()));
+        QObject::connect(btnDelPoint, SIGNAL(clicked()), this, SLOT(actionDelPoint()));
+        QObject::connect(btnAddCircle, SIGNAL(clicked()), this, SLOT(actionAddCircle()));
+        QObject::connect(btnDelCircle, SIGNAL(clicked()), this, SLOT(actionDelCircle()));
+        //*******************************
     }
 
 public slots:
     void actionQuit(){
         QApplication::quit();
+    }
+
+    void actionGenerate()
+    {
+
+        actionClean();
+
+        wgt->circle.pos = QPointF(0,0);
+        wgt->circle.radius = 100;
+
+        btnDelCircle->setEnabled(true);
+        btnAddCircle ->setText(kBtnTextEditCircle);
+
+
+        addRow(QPointF(-10,10));
+        addRow(QPointF(10,10));
+        addRow(QPointF(-10,-10));
+
+        actionCalc();
     }
     void actionClean(){
 
@@ -135,18 +152,20 @@ public slots:
                             qreal a = kcalcSide(triangle.points[0], triangle.points[1]);
                             qreal b = kcalcSide(triangle.points[0], triangle.points[2]);
                             qreal c = kcalcSide(triangle.points[1], triangle.points[2]);
-                            qreal s = (a+b+c)/2;
-                            qreal area = sqrt(s*(s-a)*(s-b)*(s-c));
 
-                            bool center_circle_on_side_1 = kIfPointOnSide(
+                            //Формула Герона
+                            qreal p = (a+b+c)/2;                    //полупериметр
+                            qreal area = sqrt(p*(p-a)*(p-b)*(p-c)); //площадь
+
+                            bool center_circle_on_side_1 = kIfPointOnLine(
                                        wgt->circle.pos,
                                        triangle.points[0],
                                        triangle.points[1]);
-                            bool center_circle_on_side_2 = kIfPointOnSide(
+                            bool center_circle_on_side_2 = kIfPointOnLine(
                                        wgt->circle.pos,
                                        triangle.points[0],
                                        triangle.points[2]);
-                            bool center_circle_on_side_3 = kIfPointOnSide(
+                            bool center_circle_on_side_3 = kIfPointOnLine(
                                        wgt->circle.pos,
                                        triangle.points[1],
                                        triangle.points[2]);
@@ -186,21 +205,62 @@ public slots:
             QPointF point2 = triangle.points[1];
             QPointF point3 = triangle.points[2];
 
+            double angle1 = kAngleVector_XAxis(point1.x(), point1.y(), point2.x(), point2.y());
+            double angle2 = kAngleVector_XAxis(point1.x(), point1.y(), point3.x(), point3.y());
+            double angle3 = kAngleVector_XAxis(point2.x(), point2.y(), point3.x(), point3.y());
 
-            double angle1 = kAngleOfTwoVectors(point1.x(), point1.y(), point2.x(), point2.y());
-            double angle2 = kAngleOfTwoVectors(point1.x(), point1.y(), point3.x(), point3.y());
-            double angle3 = kAngleOfTwoVectors(point2.x(), point2.y(), point3.x(), point3.y());
+            qDebug()<<QString().sprintf("%i) angles: %.2lf %.2lf %.2lf", ++i, angle1, angle2, angle3);
 
-            qDebug()<<QString().sprintf("%i) %.2lf %.2lf %.2lf", ++i, angle1, angle2, angle3);
 
-            double angle = kmin( kmin(angle1, angle2),  angle3);
+            double angle;
+            int k,q;
+
+            if (angle1 < angle2)
+            {
+                if (angle1 < angle3)
+                {
+                    angle = angle1;
+                    k = 0;
+                    q = 1;
+                }
+                else
+                {
+                    angle = angle3;
+                    k = 0;
+                    q = 2;
+                }
+            }
+            else
+            {
+                if (angle2 < angle3)
+                {
+                    angle = angle2;
+                    k = 0;
+                    q = 2;
+                }
+                else
+                {
+                    angle = angle3;
+                    k = 1;
+                    q = 2;
+                }
+            }
+
 
             if (!wgt->triangle.min || wgt->triangle.angle > angle)
             {
-                qDebug()<<QString().sprintf("%i) %.2lf", i, angle);
+                // Сохраняем индексы точек для показа их в текстовом решении
+
+                wgt->triangle.k = 1;
+                wgt->triangle.q = 2;
+
                 wgt->triangle = triangle;
                 wgt->triangle.angle = angle;
                 wgt->triangle.min = true;
+
+
+                qDebug()<<QString().sprintf("%i) min angle: %.2lf", i, angle);
+
             }
         }
 
@@ -212,30 +272,42 @@ public slots:
             QMessageBox *msgBox = new QMessageBox(0);
             msgBox->setText("Решение");
             msgBox->setWindowModality(Qt::NonModal);
-            msgBox->setInformativeText( QString("Найден искомый треугольник с координатами:\n%1\n"
-                                       "у которого прямая, проходящая через две вершины:\n %2 \n"
-                                       "проходит через центр окружности: %3 \n\n"
-                                       "Угол между стороной треугольника и осью абцисс: (%4) \n").arg(
-                                            QString("(%1, %2), (%3, %4), (%5, %6)").arg(
-                                                QString::number(wgt->triangle.points[0].x()),
-                                                QString::number(wgt->triangle.points[0].y()),
-                                                QString::number(wgt->triangle.points[1].x()),
-                                                QString::number(wgt->triangle.points[1].y()),
-                                                QString::number(wgt->triangle.points[2].x()),
-                                                QString::number(wgt->triangle.points[2].y())
-                                            ),
-                                            QString("(%1, %2), (%3, %4)").arg(
-                                                QString::number(wgt->triangle.points[wgt->triangle.i].x()),
-                                                QString::number(wgt->triangle.points[wgt->triangle.i].y()),
-                                                QString::number(wgt->triangle.points[wgt->triangle.j].x()),
-                                                QString::number(wgt->triangle.points[wgt->triangle.j].y())
-                                            ),
-                                            QString("(%1, %2)").arg(
-                                                QString::number(wgt->circle.pos.x()),
-                                                QString::number(wgt->circle.pos.y())
-                                            ),
-                                            QString("").sprintf("%.2lf", wgt->triangle.angle)
-                                            ) );
+            msgBox->setInformativeText(
+                        QString("Найден искомый треугольник с координатами:\n%1\n"
+                                "у которого прямая, проходящая через две вершины:\n %2 \n"
+                                "проходит через центр окружности: %3 с радиусом %4.\n\n"
+                                "Угол между стороной треугольника, образованной точками:\n %5,\n"
+                                "и осью абцисс: %6.\n").arg
+                        (
+                            QString("(%1, %2), (%3, %4), (%5, %6)").arg(
+                                QString::number(wgt->triangle.points[0].x()),
+                                QString::number(wgt->triangle.points[0].y()),
+                                QString::number(wgt->triangle.points[1].x()),
+                                QString::number(wgt->triangle.points[1].y()),
+                                QString::number(wgt->triangle.points[2].x()),
+                                QString::number(wgt->triangle.points[2].y())
+                            ),
+                            QString("(%1, %2), (%3, %4)").arg(
+                                QString::number(wgt->triangle.points[wgt->triangle.i].x()),
+                                QString::number(wgt->triangle.points[wgt->triangle.i].y()),
+                                QString::number(wgt->triangle.points[wgt->triangle.j].x()),
+                                QString::number(wgt->triangle.points[wgt->triangle.j].y())
+                            ),
+                            QString("(%1, %2)").arg(
+                                QString::number(wgt->circle.pos.x()),
+                                QString::number(wgt->circle.pos.y())
+                            ),
+                            QString("%1").arg(QString::number(wgt->circle.radius)),
+
+                            QString("(%1, %2), (%3, %4)").arg(
+                                QString::number(wgt->triangle.points[wgt->triangle.k].x()),
+                                QString::number(wgt->triangle.points[wgt->triangle.k].y()),
+                                QString::number(wgt->triangle.points[wgt->triangle.j].x()),
+                                QString::number(wgt->triangle.points[wgt->triangle.j].y())
+                            ),
+                            QString("").sprintf("%.2lf", wgt->triangle.angle)
+                        )
+                    );
 
            QSpacerItem* horizontalSpacer = new QSpacerItem(400, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
            QGridLayout* layout = (QGridLayout*)msgBox->layout();
@@ -246,6 +318,7 @@ public slots:
 
 
     }
+
     void actionAddPoint(){
 
         AddPointDialog* addDialog = new AddPointDialog;
@@ -255,49 +328,81 @@ public slots:
         delete addDialog;
 
     }
-    void actionEditPoint(){}
-    void actionDelPoint(){}
-    void actionAddCircle(){
+    void actionEditPoint(){
 
+        if (tableView->currentRow() >= 0)
+        {
+            AddPointDialog* addDialog = new AddPointDialog;
+            if (addDialog->exec() == QDialog::Accepted) {
+
+                double newX = addDialog->X().toFloat();
+                double newY = addDialog->Y().toFloat();
+
+                wgt->points[tableView->currentRow()] = QPointF(newX, newY);
+
+                wgt->triangle.min = false;
+                wgt->update();
+                updateTable();
+
+
+            }
+            delete addDialog;
+
+        }
+
+    }
+    void actionDelPoint(){
+
+        if (tableView->currentRow() >= 0)
+        {
+            wgt->points.removeAt(tableView->currentRow());
+
+            if (wgt->points.size() == 0)
+            {
+                btnEditPoint->setEnabled(false);
+                btnDelPoint->setEnabled(false);
+            }
+
+            wgt->triangle.min = false;
+            wgt->update();
+            updateTable();
+        }
+
+
+    }
+
+    void actionAddCircle(){
 
         AddCircleDialog* addDialog = new AddCircleDialog;
         if (addDialog->exec() == QDialog::Accepted)
         {
             wgt->circle.pos = QPointF(addDialog->X().toFloat(), addDialog->Y().toFloat());;
             wgt->circle.radius = addDialog->R().toFloat();
+
+            btnDelCircle->setEnabled(true);
+            btnAddCircle ->setText(kBtnTextEditCircle);
+
             wgt->update();
         }
         delete addDialog;
 
     }
-    void actionEditCircle(){}
-    void actionDelCircle(){}
-    void actionGenerate()
-    {
+    void actionDelCircle(){
+        wgt->circle.pos = QPointF(0,0);
+        wgt->circle.radius = 0;
 
-        actionClean();
+        btnDelCircle->setEnabled(false);
+        btnAddCircle ->setText(kBtnTextAddCircle);
 
-        wgt->circle.pos = QPointF(200,200);
-        wgt->circle.radius = 100;
-
-        addRow(QPointF(10,10));
-        addRow(QPointF(350,350));
-        addRow(QPointF(100,267));
-
-        actionCalc();
+        wgt->update();
     }
 
-//    void pointSelected(QModelIndex indeMod,QModelIndex indeMod2)
-//    {
-//        AddDialog* addDialog = new AddDialog;
-//        if (addDialog->exec() == QDialog::Accepted)
-//        {
-//            tableView->setItem(indeMod.row(), 1,  new QTableWidgetItem(addDialog->X()));
-//            tableView->setItem(indeMod.row(), 2,  new QTableWidgetItem(addDialog->Y()));
-//        }
-//        delete addDialog;
-//    }
+    void pointSelected(QModelIndex ind1)
+    {
+        btnEditPoint->setEnabled(ind1.row() >= 0);
+        btnDelPoint->setEnabled(ind1.row() >= 0);
 
+    }
 
 private:
     bool eventFilter(QObject *, QEvent *);
