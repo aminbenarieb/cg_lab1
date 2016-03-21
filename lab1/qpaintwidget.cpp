@@ -31,12 +31,12 @@ QLabel* QPaintWidget::initAxisLabel(int x, int y, int labelWidth, int labelHeigh
 
 double QPaintWidget::canvasWidth()
 {
-    return this->width()-kPadding;
+    return this->width()-2*kPadding;
 }
 
 double QPaintWidget::canvasHeight()
 {
-    return this->height()-kPadding;
+    return this->height()-2*kPadding;
 }
 
 // Calculation
@@ -127,11 +127,11 @@ QPointF QPaintWidget::scalePoint(QPointF point)
 }
 
 double QPaintWidget::scalePointX(double x){
-    return  ((x - minX)/ (maxX - minX)) * canvasWidth();
+    return  ((x - minX)/ (maxX - minX)) * canvasWidth() + kPadding;
 }
 double QPaintWidget::scalePointY(double y){
 
-    return  ((y - minY)/ (maxY - minY)) * canvasHeight() *(-1) + canvasHeight();
+    return  ((y - minY)/ (maxY - minY)) * canvasHeight() *(-1) + canvasHeight() + kPadding;
 }
 
 QTriangle QPaintWidget::scaleTrianglePoints(QTriangle triangle)
