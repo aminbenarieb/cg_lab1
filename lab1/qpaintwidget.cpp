@@ -306,7 +306,7 @@ void QPaintWidget::paintEvent(QPaintEvent *) {
     drawCircle(&ppainter);
     drawTriangle(&ppainter);
     drawPoints(&ppainter);
-    drawCircleLine(&ppainter);
+//    drawCircleLine(&ppainter);
 
     ppainter.restore();
 }
