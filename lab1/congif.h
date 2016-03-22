@@ -48,7 +48,12 @@ class QPointF;
 
 inline bool kIfPointOnLine(QPointF currPoint, QPointF point1, QPointF point2)
 {
-    return ((currPoint.x() - point1.x())/(point2.x() - point1.x())) == ((currPoint.y() - point1.y())/(point2.y() - point1.y()));
+    if ((currPoint.y() - point1.y()) == (point2.y() - point1.y()))
+        return true;
+    else if ((currPoint.x() - point1.x()) == (point2.x() - point1.x()))
+        return true;
+    else
+        return ((currPoint.x() - point1.x())/(point2.x() - point1.x())) == ((currPoint.y() - point1.y())/(point2.y() - point1.y()));
 
 }
 
