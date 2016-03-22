@@ -56,6 +56,7 @@ private:
     void drawFrame(QPainter *);
     void drawAxis(QPainter *);
     void drawCircle(QPainter *);
+    void drawCircleLine(QPainter *);
     void drawPoints(QPainter *);
     void drawTriangle(QPainter *);
     double canvasWidth();

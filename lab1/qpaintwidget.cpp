@@ -144,6 +144,34 @@ QTriangle QPaintWidget::scaleTrianglePoints(QTriangle triangle)
 
 // Drawing
 
+void QPaintWidget::drawCircleLine(QPainter *ppainter)
+{
+
+//    double x1 = kPadding;
+//    double x2 = canvasWidth();
+
+//    double a = ( triangle.points[triangle.i].y() -  triangle.points[triangle.j].y() ) /   ( triangle.points[triangle.i].x() -  triangle.points[triangle.j].x() );
+//    double b =  triangle.points[triangle.i].y()  - a * triangle.points[triangle.i].x();
+
+//    double y1 = scalePointX( a*x1  +b );
+//    double y2 = scalePointY( a*x2 + b );
+
+    if (triangle.min)
+    {
+        double x1 = circle.pos.x();
+        double y1 = circle.pos.y();
+        double x2 = triangle.points[triangle.j].x();
+        double y2 = triangle.points[triangle.j].y();
+
+        ppainter->save();
+
+        ppainter->setPen(QPen(Qt::red,2,Qt::SolidLine));
+        ppainter->drawLine(  scalePoint ( QPointF(x1,y1) ),  scalePoint ( QPointF(x2, y2) ) );
+
+        ppainter->restore();
+    }
+}
+
 void QPaintWidget::drawFrame(QPainter *ppainter){
 
     QVector<QPointF> linePoints;
@@ -278,6 +306,7 @@ void QPaintWidget::paintEvent(QPaintEvent *) {
     drawCircle(&ppainter);
     drawTriangle(&ppainter);
     drawPoints(&ppainter);
+    drawCircleLine(&ppainter);
 
     ppainter.restore();
 }
